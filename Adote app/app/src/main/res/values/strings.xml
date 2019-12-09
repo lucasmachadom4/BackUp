@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Adote</string>
+    <string name="editar">EDITAR</string>
+    <string name="salvar">SALVAR</string>
+    <string name="proximo">PRÓXIMO</string>
+    <string name="excluir">EXCLUIR</string>
+    <string name="cancelar">CANCELAR</string>
+    <string name="finalizar">FINALIZAR</string>
+    <string name="sair_usuario">Desconectar Conta</string>
+    <string name="apagar_usuario">Apagar Conta</string>
+    <string name="login">Login</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">ENTRAR</string>
+    <string name="criar_conta">Criar Conta</string>
+    <string name="checkbox">Se mater logado?</string>
+
+    <string name="id">Id</string>
+    <string name="nome">Nome:</string>
+    <string name="descricao">Descrição:</string>
+    <string name="sexo">Sexo:</string>
+    <string name="data_nascimento">Data de Nascimento:</string>
+    <string name="cidade">Cidade:</string>
+    <string name="valor_doacao">Valor da Doação:</string>
+    <string name="tipo">Tipo:</string>
+    <string name="estado">Estado:</string>
+    <string name="responsavel">Responsavel:</string>
+    <string name="email">E-mail:</string>
+    <string name="telefone1">Telefone 1:</string>
+    <string name="telefone2">Telefone 2:</string>
+
+
+    <string name="macho">Macho</string>
+    <string name="femea">Fêmea</string>
+
+    <string name="doacaoMsg">Gostaria de fazer uma doação para ajudar a manter esse aplicativo?</string>
+    <string name="RS">R$</string>
+    <string-array name="tipospinner">
+        <item>SELECIONE</item>
+        <item>Cachorro</item>
+        <item>Gato</item>
+    </string-array>
+
+    <string-array name="bandeiracartao">
+        <item>SELECIONE</item>
+        <item>VISA</item>
+        <item>ELO</item>
+        <item>HIPERCARD</item>
+    </string-array>
+
+
+</resources>

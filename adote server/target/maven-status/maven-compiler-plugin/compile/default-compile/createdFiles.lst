@@ -1,0 +1,8 @@
+br\com\pucgo\adote\entidade\Tipo.class
+br\com\pucgo\adote\persistencia\Conecxao.class
+br\com\pucgo\adote\controle\AnimalController.class
+br\com\pucgo\adote\entidade\Animal.class
+br\com\pucgo\adote\persistencia\AnimalDAO.class
+br\com\pucgo\adote\controle\UsuarioController.class
+br\com\pucgo\adote\entidade\Usuario.class
+br\com\pucgo\adote\persistencia\UsuarioDAO.class
