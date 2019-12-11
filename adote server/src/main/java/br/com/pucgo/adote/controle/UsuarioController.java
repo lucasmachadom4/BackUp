@@ -79,9 +79,9 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/excluir/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean excluirUsuarioJSON(@PathVariable int id) {
+	public @ResponseBody boolean excluirUsuarioJSON(@PathVariable String id) {
 		
-		return usuarioService.excluirUsuario(id);
+		return usuarioService.excluirUsuario(Integer.parseInt(id));
 	}
 
 }

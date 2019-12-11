@@ -8,14 +8,15 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="10dp"
-        android:background="@color/colorPrimaryDark">
+        app:layout_constraintTop_toTopOf="parent">
 
 
     </LinearLayout>
@@ -39,19 +40,22 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/img_logo" />
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:alpha="0.8"
+                android:src="@drawable/img_dog_and_p500px"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 android:text="@string/login"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginTop="25dp"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtLogin"
@@ -67,27 +71,31 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="@string/senha"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
-                android:layout_marginTop="15dp"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtSenha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:textSize="24sp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/btnEntrar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="@string/entrar"
                 android:textAlignment="center"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -95,10 +103,12 @@
                 android:id="@+id/btnCriarConta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/verdeCinza"
+                android:elevation="10dp"
                 android:text="@string/criar_conta"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
 

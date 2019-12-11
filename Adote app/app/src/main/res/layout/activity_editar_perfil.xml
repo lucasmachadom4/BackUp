@@ -10,11 +10,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:elevation="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="10dp"
-        android:background="@color/colorPrimaryDark">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnVoltar"
@@ -74,11 +74,10 @@
 
             <ImageView
                 android:id="@+id/imvImagem"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_perfil_55dp"
-                />
+                android:src="@drawable/ic_mood_55dp" />
 
             <ImageButton
                 android:id="@+id/btnAddFoto"
@@ -86,8 +85,7 @@
                 android:layout_height="55dp"
                 android:alpha=".7"
                 android:backgroundTint="#00000000"
-                android:src="@drawable/ic_add_foto_55dp"
-                android:tint="#54B311" />
+                android:src="@drawable/ic_add_foto_55dp" />
 
             <EditText
                 android:id="@+id/edtNome"
@@ -108,7 +106,8 @@
                 android:ems="10"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtSenha"
@@ -117,7 +116,8 @@
                 android:ems="10"
                 android:hint="@string/senha"
                 android:inputType="textPassword"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
             <EditText
@@ -127,7 +127,8 @@
                 android:ems="10"
                 android:hint="@string/telefone1"
                 android:inputType="phone"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtTelefone2"
@@ -136,7 +137,8 @@
                 android:ems="10"
                 android:hint="@string/telefone2"
                 android:inputType="phone"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/layoutBotao"
@@ -154,7 +156,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/verdeCinza"
                     android:text="@string/salvar"
+                    android:textAlignment="center"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 

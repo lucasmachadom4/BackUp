@@ -9,46 +9,87 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="68dp"
+        android:background="@color/colorPrimary"
         android:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/btnPesquisar"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="5"
-            android:backgroundTint="#00642F2F"
-            android:src="@drawable/ic_pesquisa_55dp"
-            android:tint="#FFFFFF" />
-
-        <ImageButton
-            android:id="@+id/btnCadastrarAnimal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:backgroundTint="#00642F2F"
-            android:src="@drawable/ic_add_55dp"
-            android:tint="#1DD125"
-            android:visibility="visible" />
-
-        <ImageButton
-            android:id="@+id/btnPerfil"
-            android:layout_width="65dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:backgroundTint="#00642F2F"
-            android:src="@drawable/ic_perfil_55dp"
-            android:tint="#FFFFFF"
-            tools:visibility="visible" />
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnVoltar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="2"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_voltar_55dp"
+                android:tint="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnEditar"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_weight="1"
+                android:backgroundTint="#00642F2F"
+                android:src="@drawable/ic_editar_55dp"
+                android:tint="#75F37A"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvEditar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Editar"
+                android:textAlignment="center"
+                android:textColor="#FFF9F9"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnExcluir"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_weight="5"
+                android:backgroundTint="#00642F2F"
+                android:src="@drawable/ic_delete_55dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvExcluir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Excluir"
+                android:textAlignment="center"
+                android:textColor="#FFF9F9"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
@@ -62,59 +103,131 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imvImagem"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:src="@drawable/ic_perfil_55dp" />
-
-            <TextView
-                android:id="@+id/tvUsuarioTelefone2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvDescricao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                android:layout_marginTop="15dp"
+                android:src="@drawable/img_dog_and_p500px" />
 
             <LinearLayout
+                android:id="@+id/layoutResponsavel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginTop="15dp"
+                android:background="#6BE5C4FC"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tvNomeAnimal"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="tvNome"
+                    android:text="@string/responsavel"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvSexo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="tvSexo"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvCidade"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nome"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvUsuarioNome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="UsuarioNome"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        android:textIsSelectable="true"
+                        android:layout_marginLeft="7dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="tvCidade"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvUsuarioEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        android:textIsSelectable="true"
+                        android:layout_marginLeft="7dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="0"
+                        android:src="@drawable/ic_phone_55dp" />
+
+                    <TextView
+                        android:id="@+id/tvUsuarioTelefone1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/telefone1"
+                        android:textColor="#03A9F4"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        android:textIsSelectable="true"/>
+
+                    <TextView
+                        android:id="@+id/tvUsuarioTelefone2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/telefone2"
+                        android:textColor="#03A9F4"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        android:textIsSelectable="true"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
@@ -125,49 +238,179 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tvUsuarioTelefone1"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvNomeAnimal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                android:layout_marginTop="15dp"
+                android:text="tvNome"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvTipoNome"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                android:layout_marginTop="5dp"
+                android:text="@string/descricao"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvUsuarioEmail"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvDescricao"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                android:text="@string/descricao"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tvDataNascimento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvTipoId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/data_nascimento"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvUsuarioNome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/tvDataNascimento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="tvDataNascimento"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:src="@drawable/ic_sexo" />
+
+                <TextView
+                    android:id="@+id/tvSexo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="tvSexo"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:src="@drawable/ic_pin_map_55dp"
+                    android:tint="#F72410" />
+
+                <TextView
+                    android:id="@+id/tvCidade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="tvCidade"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTipoId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:src="@drawable/ic_pets_55dp" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/tipo"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/tvTipoNome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/tipo"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    android:layout_marginLeft="7dp"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96"
+        android:elevation="10dp">
+
+        <ImageButton
+            android:id="@+id/btnMostarResponsavel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
+            android:src="@drawable/ic_favorite_55dp"
+            android:tint="#FA4F71" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADOTAR"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

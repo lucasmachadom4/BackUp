@@ -51,9 +51,9 @@ public class TipoController {
 	}
 	
 	@RequestMapping(value = "/excluir/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean excluirTipoJSON(@PathVariable int id) {	
+	public @ResponseBody boolean excluirTipoJSON(@PathVariable String id) {	
 		
-		return tipoService.excluirTipo(id);
+		return tipoService.excluirTipo(Integer.parseInt(id));
 	}
 
 }

@@ -183,10 +183,9 @@ public class Valida {
     }
 
     public String formataDataBanco(String data) {
-        String dia = data.substring(0,2);
-        String mes = data.substring(3,5);
-        String ano = data.substring(6);
+        String dia = data.substring(8);
+        String mes = data.substring(5,7);
+        String ano = data.substring(0,4);
         return dia + "/" + mes + "/" + ano ;
     }
-
 }

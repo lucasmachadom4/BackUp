@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import br.com.pucgo.adote.entidade.Animal;
 import br.com.pucgo.adote.entidade.Usuario;
 
 public class UsuarioDAO {
@@ -99,6 +101,7 @@ public class UsuarioDAO {
 					+ usuario.getTelefone2() + "'";
 			
 			if(statement.executeUpdate("UPDATE usuario SET " + set + " WHERE id = " + usuario.getId() + ";") != 0) {
+				conn.close();
 				return true;
 			}
 			
@@ -114,8 +117,16 @@ public class UsuarioDAO {
 		try {
 			Connection conn = conexaoDB.abreConexao();
 			Statement statement = conn.createStatement();
-
+			AnimalDAO animalDAO = new AnimalDAO();
+			ArrayList<Animal> listaAnimals = animalDAO.consultarAnimaisUsuario(id);
+			for(int i=0; i<listaAnimals.size(); i++) {				
+				if(!animalDAO.excluirAnimal( listaAnimals.get(i).getId() )) {
+					System.out.println("Erro na Exclusão dos animais do usuario" );
+				}				
+			}
+			
 			if(statement.executeUpdate("DELETE FROM usuario WHERE id = " + id + ";") != 0) {
+				conn.close();
 				return true;
 			}
 			conn.close();

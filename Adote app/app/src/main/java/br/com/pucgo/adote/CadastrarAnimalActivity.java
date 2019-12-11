@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ public class CadastrarAnimalActivity extends Activity {
     private EditText edtNome, edtDescricao, edtDataNascimento, edtCidade;
     private Spinner spinnerTipo;
     private ImageView imvFoto;
-    private RadioGroup radioGroup;
     private RadioButton radioBtnMacho, radioBtnFemea;
+    private TextView tvIdAnimal;
     private ArrayList<Tipo> listaTipos = new ArrayList<Tipo>();
 
     @Override
@@ -49,6 +49,7 @@ public class CadastrarAnimalActivity extends Activity {
         voltar();
         carregaDadosSpinnerTipo();
         selecionarImagem();
+        preencheCampos();
         irFinalizarCadastro();
 
     }
@@ -61,10 +62,9 @@ public class CadastrarAnimalActivity extends Activity {
         edtDescricao = findViewById(R.id.edtDescricao);
         edtDataNascimento = findViewById(R.id.edtDataNascimento);
         edtCidade = findViewById(R.id.edtCidade);
-        radioGroup = findViewById(R.id.radioGroup);
         radioBtnMacho = findViewById(R.id.radioBtnMacho);
         radioBtnFemea = findViewById(R.id.radioBtnFemea);
-
+        tvIdAnimal = findViewById(R.id.tvIdAnimal);
         spinnerTipo = findViewById(R.id.spinnerTipo);
         imvFoto = findViewById(R.id.imvFoto);
         cadastrarAnimalActivity = this;
@@ -95,9 +95,9 @@ public class CadastrarAnimalActivity extends Activity {
     }
 
     private void carregaDadosSpinnerTipo() {
+        AsyncWS asyncWS = new AsyncWS("tipoController/consultar/");
         try {
             ArrayAdapter adapter = new ArrayAdapter(CadastrarAnimalActivity.this, android.R.layout.simple_spinner_dropdown_item);
-            AsyncWS asyncWS = new AsyncWS("tipoController/consultar/");
             Tipo[] listaTipo = asyncWS.getTranslation(asyncWS.execute().get(), Tipo[].class);
             for (int i = 0; i < listaTipo.length; i++) {
                 listaTipos.add(listaTipo[i]);
@@ -105,7 +105,31 @@ public class CadastrarAnimalActivity extends Activity {
             }
             spinnerTipo.setAdapter(adapter);
         } catch (Exception e) {
+            asyncWS.cancel(true);
             Log.e("ERRO tipo", e.getMessage());
+        }
+    }
+
+    private void preencheCampos(){
+        Intent intent = getIntent();
+        if(intent.getStringExtra("id") != null){
+            //Log.e("ID animal putExtra",  i.getStringExtra("id")+"");
+            tvIdAnimal.setText(intent.getStringExtra("id"));
+            edtNome.setText(intent.getStringExtra("nome"));
+            edtDescricao.setText(intent.getStringExtra("descricao"));
+            edtDataNascimento.setText(intent.getStringExtra("data"));
+            edtCidade.setText( intent.getStringExtra("cidade") );
+
+            if(intent.getStringExtra("sexo").equals("Macho")){
+                radioBtnMacho.setChecked(true);
+            }else{
+                radioBtnFemea.setChecked(true);
+            }
+            for (int i= 0; i < listaTipos.size(); i++) {
+                if( listaTipos.get(i).getNome().equals(intent.getStringExtra("tipo")) ){
+                    spinnerTipo.setSelection(i);
+                }
+            }
         }
     }
 
@@ -127,6 +151,7 @@ public class CadastrarAnimalActivity extends Activity {
                     }
 
                     Intent intent = new Intent(CadastrarAnimalActivity.this, CadastrarAnimalFinalActivity.class);
+                    intent.putExtra("id", tvIdAnimal.getText().toString() );
                     intent.putExtra("nome", edtNome.getText().toString());
                     intent.putExtra("descricao", edtDescricao.getText().toString());
                     intent.putExtra("sexo", sexo);
@@ -140,10 +165,14 @@ public class CadastrarAnimalActivity extends Activity {
                        }
                     }
                     intent.putExtra("idtipo", Integer.toString( id ));
+                    intent.putExtra("tipo", spinnerTipo.getSelectedItem().toString() );
                     intent.putExtra("idusuario", consultaUsuario() );
+                    Intent intentUsuario = getIntent();
+                    intent.putExtra("usuarioNome",  intentUsuario.getStringExtra("usuarioNome")+"");
+                    intent.putExtra("usuarioEmail",  intentUsuario.getStringExtra("usuarioEmail")+"");
+                    intent.putExtra("usuarioTelefone1",  intentUsuario.getStringExtra("usuarioTelefone1")+"");
+                    intent.putExtra("usuarioTelefone2", intentUsuario.getStringExtra("usuarioTelefone2") +"");
                     startActivity(intent);
-
-
                 } else {
                     Toast.makeText(CadastrarAnimalActivity.this, "Dados INVALIDO!", Toast.LENGTH_SHORT).show();
                 }
@@ -154,12 +183,12 @@ public class CadastrarAnimalActivity extends Activity {
 
     private String consultaUsuario(){
         UsuarioAppDAOBD db = new UsuarioAppDAOBD(CadastrarAnimalActivity.this);
-
         AsyncWS asyncWS = new AsyncWS("usuarioController/consultarinf/"+ db.buscar().get(0).getEmail());
         try{
             Usuario usuario = asyncWS.getTranslation(asyncWS.execute().get(), Usuario.class);
             return Integer.toString(usuario.getId())  ;
         }catch (Exception e){
+            asyncWS.cancel(true);
             return null;
         }
     }

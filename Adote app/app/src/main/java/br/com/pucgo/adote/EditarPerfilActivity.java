@@ -96,6 +96,7 @@ public class EditarPerfilActivity extends Activity {
                             }
                         } catch (Exception e) {
                             Log.e("Erro Incluir", e.getMessage());
+                            asyncWS.cancel(true);
                         }
                     }else {
                         UsuarioAppDAOBD db = new UsuarioAppDAOBD(EditarPerfilActivity.this);
@@ -115,6 +116,7 @@ public class EditarPerfilActivity extends Activity {
                             }
                         } catch (Exception e) {
                             Log.e("Erro ALTERAR", e.getMessage());
+                            asyncWS.cancel(true);
                         }
                     }
                 } else {

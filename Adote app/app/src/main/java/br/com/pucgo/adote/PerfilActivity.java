@@ -18,7 +18,7 @@ import br.com.pucgo.adote.persistencia.UsuarioAppDAOBD;
 
 public class PerfilActivity extends Activity {
 
-    private ImageButton btnVoltar;
+    private ImageButton btnVoltar, btnMeusAnimais;
     private Button btnEditar, btnSairConta, btnApagarConta;
     private TextView tvNomeExibido, tvEmailExibido, tvTelefone1Exibido, tvTelefone2Exibido, tvIdUsuario;
     private ImageView imvImagem;
@@ -30,6 +30,7 @@ public class PerfilActivity extends Activity {
 
         inicializaVariaveis();
         voltarTela();
+        irMeusAnimais();
         preencheCamposUsuario();
         editar();
         desconectarConta();
@@ -41,6 +42,7 @@ public class PerfilActivity extends Activity {
         btnEditar = findViewById(R.id.btnEditar);
         btnSairConta = findViewById(R.id.btnSairConta);
         btnApagarConta = findViewById(R.id.btnApagarConta);
+        btnMeusAnimais = findViewById(R.id.btnMeusAnimais);
 
         tvIdUsuario = findViewById(R.id.tvIdUsuario);
         tvNomeExibido = findViewById(R.id.tvNomeExibido);
@@ -49,15 +51,6 @@ public class PerfilActivity extends Activity {
         tvTelefone2Exibido = findViewById(R.id.tvTelefone2Exibido);
 
         imvImagem = findViewById(R.id.imvImagem);
-    }
-
-    private void voltarTela() {
-        btnVoltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void preencheCamposUsuario() {
@@ -74,7 +67,28 @@ public class PerfilActivity extends Activity {
             tvTelefone2Exibido.setText(usuario.getTelefone2());
         } catch (Exception e) {
             Log.e(" erro__", e.getMessage());
+            asyncWS.cancel(true);
         }
+    }
+
+    private void voltarTela() {
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    public void irMeusAnimais(){
+        btnMeusAnimais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent meusAnimais = new Intent(PerfilActivity.this, MeusAnimaisActivity.class);
+                meusAnimais.putExtra("idUsuario", tvIdUsuario.getText().toString() );
+                startActivity(meusAnimais);
+            }
+        });
     }
 
     private void editar() {
@@ -143,7 +157,7 @@ public class PerfilActivity extends Activity {
                                 finish();
                             }
                         }catch (Exception e){
-
+                            asyncWS.cancel(true);
                         }
                     }
                 }).setNegativeButton("NÂO", new DialogInterface.OnClickListener() {
@@ -155,6 +169,8 @@ public class PerfilActivity extends Activity {
             }
         });
     }
+
+
 
 
 }

@@ -14,14 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AnimalActivity"></activity>
+        <activity android:name=".MeusAnimaisActivity"></activity>
+        <activity android:name=".AnimalActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EditarPerfilActivity" />
         <activity android:name=".CadastrarAnimalFinalActivity" />
         <activity android:name=".CadastrarAnimalActivity" />
         <activity android:name=".PerfilActivity" />
         <activity android:name=".PrincipalActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

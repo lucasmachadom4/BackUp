@@ -64,6 +64,7 @@ public class LoginActivity extends Activity {
                             irMenuPrincipal();
                         }else{
                             Toast.makeText(LoginActivity.this, "Email ou senha incorreto!", Toast.LENGTH_SHORT).show();
+                            asyncWS.cancel(true);
                         }
                     }catch (Exception e){
                         Log.e("Erro asyncWS", e.getMessage());

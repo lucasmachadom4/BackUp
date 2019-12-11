@@ -74,6 +74,7 @@ public class TipoDAO {
 			Statement statement = conn.createStatement();
 			
 			if(statement.executeUpdate("UPDATE tipo SET nome='"+ tipo.getNome() +"' WHERE id = " + tipo.getId() + ";") != 0) {
+				conn.close();
 				return true;
 			}
 			conn.close();
@@ -90,6 +91,7 @@ public class TipoDAO {
 			Statement statement = conn.createStatement();
 
 			if(statement.executeUpdate("DELETE FROM tipo WHERE id = " + id + ";") != 0) {
+				conn.close();
 				return true;
 			}			
 			conn.close();

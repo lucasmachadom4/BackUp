@@ -15,7 +15,7 @@ public class AnimalService {
 	public ArrayList<Animal> consultarAnimal() {
 		AnimalDAO animalDAO = new AnimalDAO();
 		return animalDAO.consultarAnimais();
-	}
+	}	
 
 	public Animal consultarAnimalId(int id) {
 		AnimalDAO animalDAO = new AnimalDAO();
@@ -54,7 +54,7 @@ public class AnimalService {
 			Animal animal = new Animal();
 			animal.setId(id);
 			animal.setNome(nome);
-			animal.setDescricao(descricao.replace("-", ""));
+			animal.setDescricao(descricao);
 			animal.setSexo(sexo);
 			animal.setDataNascimento(validar.formataDataBanco(dataNascimento));
 			animal.setCidade(cidade);
@@ -75,6 +75,16 @@ public class AnimalService {
 	public boolean excluirAnimal(int id) {
 		AnimalDAO animalDAO = new AnimalDAO();
 		return animalDAO.excluirAnimal(id);
+	}
+	
+	public ArrayList<Animal> consultarAnimaisUsuario(int id) {
+		AnimalDAO animalDAO = new AnimalDAO();
+		return animalDAO.consultarAnimaisUsuario(id);
+	}	
+	
+	public ArrayList<Animal> consultarAnimaisPor(String pesquisa) {
+		AnimalDAO animalDAO = new AnimalDAO();
+		return animalDAO.consultarAnimaisPor(pesquisa);
 	}
 
 }

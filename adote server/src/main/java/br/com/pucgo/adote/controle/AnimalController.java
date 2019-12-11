@@ -36,13 +36,24 @@ public class AnimalController {
 	}
 
 	@RequestMapping(value = "/consultar/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Animal consultarUsuarioId(@PathVariable int id) {
+	public @ResponseBody Animal consultarAnimalId(@PathVariable int id) {
 
 		return animalService.consultarAnimalId(id);
 	}
+	@RequestMapping(value = "/consultar/usuario/{id}.json", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody ArrayList<Animal> consultarAnimaisUsuario(@PathVariable int id) {
+
+		return animalService.consultarAnimaisUsuario(id);
+	}
+	
+	@RequestMapping(value = "/consultar/pesquisa/{pesquisa}.json", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody ArrayList<Animal> consultarAnimaisPor(@PathVariable String pesquisa) {
+
+		return animalService.consultarAnimaisPor(pesquisa);
+	}
 
 	@RequestMapping(value = "/incluir/{nome}/{descricao}/{sexo}/{dataNascimento}/{cidade}/{caminhoFoto}/{valorDoacao}/{idTipo}/{idUsuario}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean insereUsuarioJSON(@PathVariable String nome, @PathVariable String descricao,
+	public @ResponseBody boolean inserirAnimalJSON(@PathVariable String nome, @PathVariable String descricao,
 			@PathVariable String sexo, @PathVariable String dataNascimento, @PathVariable String cidade,
 			@PathVariable String caminhoFoto, @PathVariable double valorDoacao, @PathVariable int idTipo, @PathVariable int idUsuario) {		
 		
@@ -53,7 +64,7 @@ public class AnimalController {
 	}
 	
 	@RequestMapping(value = "/alterar/{id}/{nome}/{descricao}/{sexo}/{dataNascimento}/{cidade}/{caminhoFoto}/{valorDoacao}/{idTipo}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean alterarUsuarioJSON(@PathVariable int id,@PathVariable String nome, @PathVariable String descricao,
+	public @ResponseBody boolean alterarAnimalJSON(@PathVariable int id, @PathVariable String nome, @PathVariable String descricao,
 			@PathVariable String sexo, @PathVariable String dataNascimento, @PathVariable String cidade,
 			@PathVariable String caminhoFoto, @PathVariable double valorDoacao, @PathVariable int idTipo) {		
 		
@@ -62,8 +73,8 @@ public class AnimalController {
 	}
 	
 	@RequestMapping(value = "/excluir/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean excluirUsuario(@PathVariable int id) {
-		return animalService.excluirAnimal(id);
+	public @ResponseBody boolean excluirAnimal(@PathVariable String id) {
+		return animalService.excluirAnimal(Integer.parseInt(id));
 	}
 	
 }

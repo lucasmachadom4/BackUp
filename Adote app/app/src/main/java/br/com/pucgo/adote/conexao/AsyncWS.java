@@ -15,7 +15,7 @@ import java.net.URL;
 public class AsyncWS extends AsyncTask<Void, Void, String> {
 
     private String json, comando;
-    private final String WS_URL = "http://192.168.1.57:8081/adote/";
+    private final String WS_URL = "http://10.0.0.100:8081/adote/";
 
     public AsyncWS(String comando) {
         this.comando = comando;
