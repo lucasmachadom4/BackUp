@@ -10,7 +10,7 @@ import br.com.pucgo.adote.util.Validar;
 
 public class AnimalService {
 
-	private Validar validar = new Validar();
+	private Validar validar = new Validar();	
 
 	public ArrayList<Animal> consultarAnimal() {
 		AnimalDAO animalDAO = new AnimalDAO();

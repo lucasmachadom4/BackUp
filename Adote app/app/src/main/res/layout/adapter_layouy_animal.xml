@@ -11,7 +11,8 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:src="@drawable/img_dog_and_p500px" />
+        android:src="@drawable/img_logo"
+        android:tint="#809634FE" />
 
     <TextView
         android:id="@+id/tvIdAnimal"
@@ -39,8 +40,8 @@
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_favorite_55dp"
-                android:tint="#E2688A" />
+                android:src="@drawable/ic_pets_55dp"
+                android:tint="#4CAF50" />
 
             <TextView
                 android:id="@+id/tvNomeAnimal"
@@ -93,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_pin_map_55dp"
-                android:tint="#F72410" />
+                android:tint="#E4F72410" />
 
             <TextView
                 android:id="@+id/tvCidade"

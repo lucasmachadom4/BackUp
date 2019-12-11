@@ -52,6 +52,7 @@ public class CadastrarAnimalActivity extends Activity {
         preencheCampos();
         irFinalizarCadastro();
 
+        cadastrarAnimalActivity = CadastrarAnimalActivity.this;
     }
 
     private void inicializaVariaveis() {
@@ -67,7 +68,6 @@ public class CadastrarAnimalActivity extends Activity {
         tvIdAnimal = findViewById(R.id.tvIdAnimal);
         spinnerTipo = findViewById(R.id.spinnerTipo);
         imvFoto = findViewById(R.id.imvFoto);
-        cadastrarAnimalActivity = this;
 
         //MASCARA PARA OS CAMPOS
         edtDataNascimento.addTextChangedListener(MaskEditUtil.mask(edtDataNascimento, MaskEditUtil.FORMAT_DATE));
@@ -113,7 +113,7 @@ public class CadastrarAnimalActivity extends Activity {
     private void preencheCampos(){
         Intent intent = getIntent();
         if(intent.getStringExtra("id") != null){
-            //Log.e("ID animal putExtra",  i.getStringExtra("id")+"");
+
             tvIdAnimal.setText(intent.getStringExtra("id"));
             edtNome.setText(intent.getStringExtra("nome"));
             edtDescricao.setText(intent.getStringExtra("descricao"));
@@ -142,7 +142,7 @@ public class CadastrarAnimalActivity extends Activity {
                         valida.validaDataNascimento(edtDataNascimento.getText().toString()) &&
                         valida.validaNome(edtCidade.getText().toString()) &&
                         valida.validaSpinner(spinnerTipo.getSelectedItemPosition() ) &&
-                        radioBtnMacho.isChecked() || radioBtnFemea.isChecked()) {
+                        valida.validaSexo(radioBtnMacho.isChecked(), radioBtnFemea.isChecked()) ) {
                     String sexo;
                     if (radioBtnMacho.isChecked()) {
                         sexo = radioBtnMacho.getText().toString();
@@ -157,7 +157,7 @@ public class CadastrarAnimalActivity extends Activity {
                     intent.putExtra("sexo", sexo);
                     intent.putExtra("data", edtDataNascimento.getText().toString().replace("/", "-"));
                     intent.putExtra("cidade", edtCidade.getText().toString());
-                    intent.putExtra("imagem", "http://192.168.1.58/imagem/".replace("/", "-"));
+                    intent.putExtra("imagem", "http://192.168.1.58/adote/imagem/".replace("/", "-"));
                     int id = 0;
                     for(int i=0; i<listaTipos.size(); i++){
                        if( listaTipos.get(i).getNome().equals( spinnerTipo.getSelectedItem().toString() ) ) {
@@ -166,27 +166,38 @@ public class CadastrarAnimalActivity extends Activity {
                     }
                     intent.putExtra("idtipo", Integer.toString( id ));
                     intent.putExtra("tipo", spinnerTipo.getSelectedItem().toString() );
-                    intent.putExtra("idusuario", consultaUsuario() );
-                    Intent intentUsuario = getIntent();
-                    intent.putExtra("usuarioNome",  intentUsuario.getStringExtra("usuarioNome")+"");
-                    intent.putExtra("usuarioEmail",  intentUsuario.getStringExtra("usuarioEmail")+"");
-                    intent.putExtra("usuarioTelefone1",  intentUsuario.getStringExtra("usuarioTelefone1")+"");
-                    intent.putExtra("usuarioTelefone2", intentUsuario.getStringExtra("usuarioTelefone2") +"");
+                    Usuario usuario = consultaUsuario();
+
+                    Log.e("CADASTRO ANIMAL u", usuario.getId()+" | "+
+                            usuario.getNome() +" | "+ usuario.getEmail()+" | "+ usuario.getTelefone1() +" |" +usuario.getTelefone2());
+
+                    intent.putExtra("idUsuario", usuario.getId() +"");
+                    intent.putExtra("usuarioNome",  usuario.getNome()+"");
+                    intent.putExtra("usuarioEmail",  usuario.getEmail()+"");
+                    intent.putExtra("usuarioTelefone1",  usuario.getTelefone1()+"");
+                    intent.putExtra("usuarioTelefone2", usuario.getTelefone2() +"");
                     startActivity(intent);
+
                 } else {
-                    Toast.makeText(CadastrarAnimalActivity.this, "Dados INVALIDO!", Toast.LENGTH_SHORT).show();
+                    String msgErro = "";
+                    if(!valida.validaSpinner(spinnerTipo.getSelectedItemPosition()) ){ msgErro += "Selecione um TIPO!.\n"; }
+                    if(!valida.validaNome(edtNome.getText().toString())){ msgErro += "Nome Invalido! Mínimo 3 LETRAS.\n"; }
+                    if(!valida.validaSexo( radioBtnMacho.isChecked(), radioBtnFemea.isChecked()) ){ msgErro += "Sexo Invalido! Selecione um.\n"; }
+                    if(!valida.validaDataNascimento(edtDataNascimento.getText().toString()) ){ msgErro += "Data Invalido!\n"; }
+                    if(!valida.validaNome(edtCidade.getText().toString()) ){ msgErro += "Cidade Invalido! Mínimo 3 LETRAS."; }
+
+                    Toast.makeText(CadastrarAnimalActivity.this, msgErro, Toast.LENGTH_LONG).show();
                 }
 
             }
         });
     }
 
-    private String consultaUsuario(){
+    private Usuario consultaUsuario(){
         UsuarioAppDAOBD db = new UsuarioAppDAOBD(CadastrarAnimalActivity.this);
         AsyncWS asyncWS = new AsyncWS("usuarioController/consultarinf/"+ db.buscar().get(0).getEmail());
         try{
-            Usuario usuario = asyncWS.getTranslation(asyncWS.execute().get(), Usuario.class);
-            return Integer.toString(usuario.getId())  ;
+            return asyncWS.getTranslation(asyncWS.execute().get(), Usuario.class);
         }catch (Exception e){
             asyncWS.cancel(true);
             return null;

@@ -18,7 +18,7 @@
     <string name="nome">Nome:</string>
     <string name="descricao">Descrição:</string>
     <string name="sexo">Sexo:</string>
-    <string name="data_nascimento">Data de Nascimento:</string>
+    <string name="data_nascimento">Data de \nNascimento:</string>
     <string name="cidade">Cidade:</string>
     <string name="valor_doacao">Valor da Doação:</string>
     <string name="tipo">Tipo:</string>

@@ -103,7 +103,6 @@ public class PerfilActivity extends Activity {
                 editarPerfil.putExtra("telefone1", tvTelefone1Exibido.getText().toString());
                 editarPerfil.putExtra("telefone2", tvTelefone2Exibido.getText().toString());
                 startActivity(editarPerfil);
-                finish();
             }
         });
     }
@@ -170,7 +169,10 @@ public class PerfilActivity extends Activity {
         });
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        preencheCamposUsuario();
+    }
 
 }

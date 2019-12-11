@@ -37,11 +37,6 @@ public class AdapterAnimais extends BaseAdapter {
         return position;
     }
 
-//    public void removerAnimal(int position){
-//        this.listaAnimais.remove(position);
-//        notifyDataSetChanged();
-//    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Valida valida = new Valida();

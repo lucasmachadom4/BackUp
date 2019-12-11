@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,6 +15,8 @@ import android.widget.ListView;
 import br.com.pucgo.adote.adapter.AdapterAnimais;
 import br.com.pucgo.adote.conexao.AsyncWS;
 import br.com.pucgo.adote.entidade.Animal;
+import br.com.pucgo.adote.util.Formata;
+import br.com.pucgo.adote.util.Valida;
 
 public class PrincipalActivity extends Activity {
 
@@ -35,6 +38,7 @@ public class PrincipalActivity extends Activity {
         irPerfil();
         irCadastrarAnimal();
         listarAnimais();
+
     }
 
     private void inicializaVariaveis(){
@@ -79,27 +83,41 @@ public class PrincipalActivity extends Activity {
                     edtPesquisa.setText("");
                 }else{
                     layoutPesquisa.setVisibility(View.VISIBLE);
-                    pesquisarAnimal();
+                    pesquisarAnimalEvento();
                 }
             }
         });
     }
 
-    private void pesquisarAnimal(){
+    private void pesquisarAnimalEvento(){
+        edtPesquisa.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    pesquisar();
+                }
+                return false;
+            }
+        });
         btnPesquisarIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncWS asyncWS = new AsyncWS("animalController/consultar/pesquisa/"+ edtPesquisa.getText().toString());
-                try{
-                    Animal[] animais = asyncWS.getTranslation(asyncWS.execute().get(), Animal[].class);
-                    for (int i = 0; i < animais.length; i++) {
-                        layoutAdapterAnimais(animais);
-                    }
-                }catch (Exception e){
-                    Log.e("Erro ao consultar", e.getMessage());
-                }
+                pesquisar();
             }
         });
+    }
+
+    private void pesquisar() {
+        AsyncWS asyncWS = new AsyncWS("animalController/consultar/pesquisa/"+ edtPesquisa.getText().toString());
+        try{
+            Animal[] animais = asyncWS.getTranslation(asyncWS.execute().get(), Animal[].class);
+            for (int i = 0; i < animais.length; i++) {
+                layoutAdapterAnimais(animais);
+            }
+        }catch (Exception e){
+            Log.e("Erro ao consultar", e.getMessage());
+            asyncWS.cancel(true);
+        }
     }
 
     private void listarAnimais(){
@@ -116,20 +134,19 @@ public class PrincipalActivity extends Activity {
     }
 
     private void layoutAdapterAnimais(Animal[] animais){
-        //adapterAnimais.notifyDataSetChanged();
         adapterAnimais = new AdapterAnimais(PrincipalActivity.this, animais);
         listViewAnimais.setAdapter(adapterAnimais);
         listViewAnimais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Formata formata = new Formata();
                 Animal animalSelecionado = (Animal) adapterAnimais.getItem(position);
                 Intent animalTela = new Intent(PrincipalActivity.this, AnimalActivity.class);
                 animalTela.putExtra("id", animalSelecionado.getId() +"");
                 animalTela.putExtra("nome", animalSelecionado.getNome() +"");
                 animalTela.putExtra("descricao", animalSelecionado.getDescricao() +"");
                 animalTela.putExtra("sexo", animalSelecionado.getSexo() +"");
-                animalTela.putExtra("data", animalSelecionado.getDataNascimento() +"");
+                animalTela.putExtra("data", formata.formataDataBanco( animalSelecionado.getDataNascimento() )+"");
                 animalTela.putExtra("cidade", animalSelecionado.getCidade() +"");
                 animalTela.putExtra("imagem", animalSelecionado.getCaminhoFoto() +"");
                 animalTela.putExtra("idTipo", animalSelecionado.getTipo().getId() +"");
@@ -138,14 +155,20 @@ public class PrincipalActivity extends Activity {
                 animalTela.putExtra("usuarioEmail", animalSelecionado.getUsuario().getEmail() +"");
                 animalTela.putExtra("usuarioTelefone1", animalSelecionado.getUsuario().getTelefone1() +"");
                 animalTela.putExtra("usuarioTelefone2", animalSelecionado.getUsuario().getTelefone2() +"");
-
                 startActivity(animalTela);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listarAnimais();
     }
 
     public static PrincipalActivity getInstance(){
         return   principalActivity;
     }
+
+
 }

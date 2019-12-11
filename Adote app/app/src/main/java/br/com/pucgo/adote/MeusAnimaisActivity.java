@@ -12,6 +12,7 @@ import android.widget.ListView;
 import br.com.pucgo.adote.adapter.AdapterAnimais;
 import br.com.pucgo.adote.conexao.AsyncWS;
 import br.com.pucgo.adote.entidade.Animal;
+import br.com.pucgo.adote.util.Formata;
 import br.com.pucgo.adote.util.Valida;
 
 public class MeusAnimaisActivity extends Activity {
@@ -41,7 +42,7 @@ public class MeusAnimaisActivity extends Activity {
         btnVoltar = findViewById(R.id.btnVoltar);
         listViewAnimais = findViewById(R.id.listViewAnimais);
 
-        meusAnimaisActivity = this;
+
     }
 
     private void voltarTela() {
@@ -74,14 +75,14 @@ public class MeusAnimaisActivity extends Activity {
         listViewAnimais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Valida valida = new Valida();
+                Formata formata = new Formata();
                 Animal animalSelecionado = (Animal) adapterAnimais.getItem(position);
                 Intent animalTela = new Intent(MeusAnimaisActivity.this, AnimalActivity.class);
                 animalTela.putExtra("id", animalSelecionado.getId() +"");
                 animalTela.putExtra("nome", animalSelecionado.getNome() +"");
                 animalTela.putExtra("descricao", animalSelecionado.getDescricao() +"");
                 animalTela.putExtra("sexo", animalSelecionado.getSexo() +"");
-                animalTela.putExtra("data",  valida.formataDataBanco( animalSelecionado.getDataNascimento() )+"");
+                animalTela.putExtra("data",  formata.formataDataBanco( animalSelecionado.getDataNascimento() )+"");
                 animalTela.putExtra("cidade", animalSelecionado.getCidade() +"");
                 animalTela.putExtra("imagem", animalSelecionado.getCaminhoFoto() +"");
                 animalTela.putExtra("idTipo", animalSelecionado.getTipo().getId() +"");
@@ -90,12 +91,15 @@ public class MeusAnimaisActivity extends Activity {
                 animalTela.putExtra("usuarioEmail", animalSelecionado.getUsuario().getEmail() +"");
                 animalTela.putExtra("usuarioTelefone1", animalSelecionado.getUsuario().getTelefone1() +"");
                 animalTela.putExtra("usuarioTelefone2", animalSelecionado.getUsuario().getTelefone2() +"");
+
                 startActivity(animalTela);
             }
         });
     }
 
-    public static MeusAnimaisActivity getInstance(){
-        return   meusAnimaisActivity;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listarAnimais();
     }
 }

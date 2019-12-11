@@ -56,7 +56,7 @@ public class Validar {
    * @return
    */
   public boolean validaTelefone(String telefone){
-      if(telefone.length() >= 11){
+      if(telefone.length() >= 15){
           return true;
       }else{
           return false;
@@ -82,7 +82,7 @@ public class Validar {
           String mes = dataNascimento.substring(3,5);
           String ano = dataNascimento.substring(6);
 
-          if( Integer.parseInt(ano) > Integer.parseInt(formatador.format(dateAtual).substring(6)) || Integer.parseInt(ano) < 1995 ){
+          if( Integer.parseInt(ano) > Integer.parseInt(formatador.format(dateAtual).substring(6)) || Integer.parseInt(ano) < 1980 ){
               return false;
           }else{
               if( Integer.parseInt(ano) == Integer.parseInt(formatador.format(dateAtual).substring(6)) &&

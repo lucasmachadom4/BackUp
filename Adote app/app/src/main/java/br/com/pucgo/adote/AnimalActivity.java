@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +37,7 @@ public class AnimalActivity extends Activity {
         editarAnimal();
         excluirAnimal();
         layoutAdotar();
+        animalActivity = AnimalActivity.this;
     }
 
     private void inicializaVariaveis() {
@@ -63,7 +63,7 @@ public class AnimalActivity extends Activity {
 
         tvEditar = findViewById(R.id.tvEditar);
         tvExcluir = findViewById(R.id.tvExcluir);
-        animalActivity = this;
+
     }
 
     public void preencheCampos(){
@@ -104,7 +104,8 @@ public class AnimalActivity extends Activity {
 
     private void visibilidadeBotoes(){
         UsuarioAppDAOBD db = new UsuarioAppDAOBD(AnimalActivity.this);
-        if( db.buscar().get(0).getEmail().equals(tvUsuarioEmail.getText().toString()) ){
+        String emailDB = db.buscar().get(0).getEmail();
+        if(emailDB.equals(tvUsuarioEmail.getText().toString()) ){
             btnEditar.setVisibility(View.VISIBLE);
             btnExcluir.setVisibility(View.VISIBLE);
             tvExcluir.setVisibility(View.VISIBLE);
@@ -153,9 +154,9 @@ public class AnimalActivity extends Activity {
                         AsyncWS asyncWS = new AsyncWS("animalController/excluir/" + tvIdAnimal.getText().toString() );
                         try {
                             if(asyncWS.execute().get().equals("true")){
-                                MeusAnimaisActivity.getInstance().finish();
-                                Intent meusAnimais = new Intent(AnimalActivity.this, MeusAnimaisActivity.class);
-                                startActivity(meusAnimais);
+                                finish();
+                            }else{
+                                asyncWS.cancel(true);
                             }
                         }catch (Exception e){
                             asyncWS.cancel(true);

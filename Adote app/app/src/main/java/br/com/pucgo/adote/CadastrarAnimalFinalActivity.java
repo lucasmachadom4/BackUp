@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import br.com.pucgo.adote.conexao.AsyncWS;
+import br.com.pucgo.adote.util.Formata;
 import br.com.pucgo.adote.util.MaskEditUtil;
 import br.com.pucgo.adote.util.Valida;
 
@@ -89,14 +90,14 @@ public class CadastrarAnimalFinalActivity extends Activity {
                     btnDoacao.setText("NÂO");
                     layoutDoacao.setVisibility(View.VISIBLE);
                 }
-
             }
         });
     }
 
-    private void fazerInclusao(String valorDoacao) {
+    private void fazerInclusaoAPI(String valorDoacao) {
         Intent i = getIntent();
         Intent animalTela = new Intent(CadastrarAnimalFinalActivity.this, AnimalActivity.class);
+
         String descricao = "-", comando;
         if(!i.getStringExtra("descricao").isEmpty()){
             descricao = i.getStringExtra("descricao");
@@ -106,37 +107,45 @@ public class CadastrarAnimalFinalActivity extends Activity {
                     + descricao + "/" + i.getStringExtra("sexo") + "/"
                     + i.getStringExtra("data") + "/" + i.getStringExtra("cidade") + "/"
                     + i.getStringExtra("imagem") + "/" + valorDoacao + "/"
-                    + i.getStringExtra("idtipo") + "/" + i.getStringExtra("idusuario") ;
+                    + i.getStringExtra("idtipo") + "/" + i.getStringExtra("idUsuario") ;
 
         }else{
             comando = "animalController/alterar/" + i.getStringExtra("id") + "/"+ i.getStringExtra("nome") + "/"
                     + descricao + "/" + i.getStringExtra("sexo") + "/"
                     + i.getStringExtra("data") + "/" + i.getStringExtra("cidade") + "/"
                     + i.getStringExtra("imagem") + "/" + valorDoacao + "/"
-                    + i.getStringExtra("idtipo")  ;
+                    + i.getStringExtra("idtipo") ;
 
-            animalTela.putExtra("id",  i.getStringExtra("id")+"");
-            animalTela.putExtra("nome", i.getStringExtra("nome")+"");
-            animalTela.putExtra("descricao",  descricao+"");
-            animalTela.putExtra("sexo",  i.getStringExtra("sexo")+"");
-            animalTela.putExtra("data",  i.getStringExtra("data")+"");
-            animalTela.putExtra("cidade", i.getStringExtra("cidade") +"");
-            animalTela.putExtra("imagem",  i.getStringExtra("imagem")+"");
-            animalTela.putExtra("idTipo",  i.getStringExtra("idtipo")+"");
-            animalTela.putExtra("tipo",  i.getStringExtra("tipo")+"");
-            animalTela.putExtra("usuarioNome", i.getStringExtra("usuarioNome") +"");
-            animalTela.putExtra("usuarioEmail", i.getStringExtra("usuarioEmail") +"");
-            animalTela.putExtra("usuarioTelefone1", i.getStringExtra("usuarioTelefone1") +"");
-            animalTela.putExtra("usuarioTelefone2", i.getStringExtra("usuarioTelefone2") +"");
+            AnimalActivity.getInstance().finish();
         }
+        animalTela.putExtra("id",  i.getStringExtra("id")+"");
+        animalTela.putExtra("nome", i.getStringExtra("nome")+"");
+        animalTela.putExtra("descricao",  descricao+"");
+        animalTela.putExtra("sexo",  i.getStringExtra("sexo")+"");
+        animalTela.putExtra("data",  i.getStringExtra("data").replace("-","/")+ "");
+        animalTela.putExtra("cidade", i.getStringExtra("cidade") +"");
+        animalTela.putExtra("imagem",  i.getStringExtra("imagem")+"");
+        animalTela.putExtra("idTipo",  i.getStringExtra("idtipo")+"");
+        animalTela.putExtra("tipo",  i.getStringExtra("tipo")+"");
+
+        Log.e("CADASTRO ANIMAL u", i.getStringExtra("usuarioNome")+" | "+
+                i.getStringExtra("usuarioEmail") +" | "+ i.getStringExtra("usuarioTelefone1")
+                +" | "+ i.getStringExtra("usuarioTelefone2") );
+
+        animalTela.putExtra("usuarioNome", i.getStringExtra("usuarioNome") +"");
+        animalTela.putExtra("usuarioEmail", i.getStringExtra("usuarioEmail") +"");
+        animalTela.putExtra("usuarioTelefone1", i.getStringExtra("usuarioTelefone1") +"");
+        animalTela.putExtra("usuarioTelefone2", i.getStringExtra("usuarioTelefone2") +"");
+
         AsyncWS asyncWS = new AsyncWS(comando);
         try{
             if( asyncWS.execute().get().equals("true") ){
                 Toast.makeText(CadastrarAnimalFinalActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
                 CadastrarAnimalActivity.getInstance().finish();
-                AnimalActivity.getInstance().finish();
                 startActivity(animalTela);
                 finish();
+            }else{
+                asyncWS.cancel(true);
             }
         }catch (Exception e){
             Log.e("ERRO Inclusao", e.getMessage());
@@ -150,19 +159,28 @@ public class CadastrarAnimalFinalActivity extends Activity {
             public void onClick(View v) {
                 if(layoutDoacao.getVisibility() == View.VISIBLE ){
                     Valida valida = new Valida();
-                    if (valida.validaValor(edtValorDoacao.getText().toString())
+                    Formata formata = new Formata();
+                    if (    valida.validaValor(edtValorDoacao.getText().toString())
                             && valida.validaCartao(edtNumeroCartao.getText().toString())
                             && valida.validaNome(edtNomeTitular.getText().toString())
                             && valida.validaSpinner(spinnerBandeira.getSelectedItemPosition())
                             && valida.validaDataValidade(edtDataValidade.getText().toString())
                             && valida.validaCodigoSeguraca(edtCodigoCvv.getText().toString())) {
                         Log.e("Entrou", "validação");
-                        fazerInclusao( valida.formataParaMoeda( edtValorDoacao.getText().toString()));
+                        fazerInclusaoAPI( formata.formataParaMoeda( edtValorDoacao.getText().toString()));
                     } else {
-                        Toast.makeText(CadastrarAnimalFinalActivity.this, "Dados do cartão invalidos!", Toast.LENGTH_SHORT).show();
+                        String msgErro = "";
+                        if(!valida.validaValor(edtValorDoacao.getText().toString()) ){ msgErro += "Valor da Doação Invalido!.\n"; }
+                        if(!valida.validaCartao(edtNumeroCartao.getText().toString()) ){ msgErro += "Número Cartão Invalido!.\n"; }
+                        if(! valida.validaNome(edtNomeTitular.getText().toString())){ msgErro += "Nome Titular Invalido!.\n"; }
+                        if(! valida.validaSpinner(spinnerBandeira.getSelectedItemPosition()) ){ msgErro += "Selecione uma Bandeira!.\n"; }
+                        if(! valida.validaDataValidade(edtDataValidade.getText().toString()) ){ msgErro += "Data de Valiade Invalida!.\n"; }
+                        if(! valida.validaCodigoSeguraca(edtCodigoCvv.getText().toString()) ) { msgErro += "CVV Invalido!."; }
+
+                        Toast.makeText(CadastrarAnimalFinalActivity.this, msgErro, Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    fazerInclusao("0");
+                    fazerInclusaoAPI("0");
                 }
             }
         });

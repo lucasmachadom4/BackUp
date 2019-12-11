@@ -78,27 +78,18 @@ public class EditarPerfilActivity extends Activity {
             public void onClick(View v) {
                 Valida valida = new Valida();
 
-                if (valida.validaNome(edtNome.getText().toString()) &&
+                if (    valida.validaNome(edtNome.getText().toString()) &&
                         valida.validaEmail(edtEmail.getText().toString()) &&
                         valida.validaSenha(edtSenha.getText().toString()) &&
-                        valida.validaTelefone(edtTelefone1.getText().toString())) {
+                        valida.validaTelefone(edtTelefone1.getText().toString()) ) {
 
-                    String variaveisUsuario = edtNome.getText().toString() + "/" + edtEmail.getText().toString() +
-                            "/" + edtSenha.getText().toString() + "/" + edtTelefone1.getText().toString() +
-                            "/" + edtTelefone2.getText().toString() ;
-
+                    String comando, msg="";
                     if ( tvIdUsuario.getText().equals("0") ) {
-                        AsyncWS asyncWS = new AsyncWS("usuarioController/incluir/" + variaveisUsuario);
-                        try {
-                            if (asyncWS.execute().get().equals("true")) {
-                                Toast.makeText(EditarPerfilActivity.this, "Conta criada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        } catch (Exception e) {
-                            Log.e("Erro Incluir", e.getMessage());
-                            asyncWS.cancel(true);
-                        }
-                    }else {
+                        comando = "usuarioController/incluir/" + edtNome.getText().toString() + "/" + edtEmail.getText().toString() +
+                                "/" + edtSenha.getText().toString() + "/" + edtTelefone1.getText().toString() +
+                                "/" + edtTelefone2.getText().toString() ;
+                        msg = "Conta criada com Sucesso!";
+                    }else{
                         UsuarioAppDAOBD db = new UsuarioAppDAOBD(EditarPerfilActivity.this);
                         Usuario usuario = new Usuario();
                         usuario.setId( db.buscar().get(0).getId() );
@@ -106,21 +97,37 @@ public class EditarPerfilActivity extends Activity {
                         usuario.setSenha(edtSenha.getText().toString());
                         db.atualizar(usuario);
 
-                        AsyncWS asyncWS = new AsyncWS("usuarioController/alterar/" + tvIdUsuario.getText().toString() + "/" + variaveisUsuario);
-                        try {
-                            if (asyncWS.execute().get().equals("true")) {
-                                Toast.makeText(EditarPerfilActivity.this, "Conta Atualziada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                Intent intentPerfil = new Intent(EditarPerfilActivity.this , PerfilActivity.class);
-                                startActivity(intentPerfil);
+                        comando = "usuarioController/alterar/" + tvIdUsuario.getText().toString() + "/" + edtNome.getText().toString() +
+                                "/" + edtEmail.getText().toString() + "/" + edtSenha.getText().toString() +
+                                "/" + edtTelefone1.getText().toString() + "/" + edtTelefone2.getText().toString();
+                        msg = "Conta Atualziada com Sucesso!";
+                    }
+                    AsyncWS asyncWS = new AsyncWS(comando);
+                    try {
+                        if ( asyncWS.execute().get().equals("true") ) {
+                            Toast.makeText(EditarPerfilActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            if( !tvIdUsuario.getText().equals("0") ){
+                                //Intent intentPerfil = new Intent(EditarPerfilActivity.this , PerfilActivity.class);
+                                //startActivity(intentPerfil);
+                                finish();
+                            }else{
                                 finish();
                             }
-                        } catch (Exception e) {
-                            Log.e("Erro ALTERAR", e.getMessage());
+                        }else{
                             asyncWS.cancel(true);
                         }
+                    } catch (Exception e) {
+                        Log.e("Erro Incluir", e.getMessage());
+                        asyncWS.cancel(true);
                     }
                 } else {
-                    Toast.makeText(EditarPerfilActivity.this, "Dados INVALIDO!", Toast.LENGTH_SHORT).show();
+                    String msgErro = "";
+                    if(!valida.validaNome(edtNome.getText().toString())){ msgErro += "Nome Invalido! Mínimo 3 LETRAS.\n"; }
+                    if(!valida.validaEmail(edtEmail.getText().toString())){ msgErro += "Email Invalido! \n"; }
+                    if(!valida.validaSenha( edtSenha.getText().toString())){ msgErro += "Senha Invalido! Mínimo 4 digitos.\n"; }
+                    if(!valida.validaTelefone(edtTelefone1.getText().toString())){ msgErro += "Telefone1 Invalido!"; }
+
+                    Toast.makeText(EditarPerfilActivity.this, msgErro, Toast.LENGTH_LONG).show();
                 }
             }
         });

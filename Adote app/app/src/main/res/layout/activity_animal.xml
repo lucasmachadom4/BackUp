@@ -92,8 +92,8 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,14 +151,14 @@
                         android:id="@+id/tvUsuarioNome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
                         android:layout_weight="1"
                         android:text="UsuarioNome"
                         android:textColor="#000"
+                        android:textIsSelectable="true"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:visibility="visible"
-                        android:textIsSelectable="true"
-                        android:layout_marginLeft="7dp"/>
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -179,14 +179,14 @@
                         android:id="@+id/tvUsuarioEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
                         android:layout_weight="1"
                         android:text="0"
                         android:textColor="#000"
+                        android:textIsSelectable="true"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:visibility="visible"
-                        android:textIsSelectable="true"
-                        android:layout_marginLeft="7dp"/>
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -210,10 +210,10 @@
                         android:layout_weight="2"
                         android:text="@string/telefone1"
                         android:textColor="#03A9F4"
+                        android:textIsSelectable="true"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:visibility="visible"
-                        android:textIsSelectable="true"/>
+                        android:visibility="visible" />
 
                     <TextView
                         android:id="@+id/tvUsuarioTelefone2"
@@ -222,10 +222,10 @@
                         android:layout_weight="2"
                         android:text="@string/telefone2"
                         android:textColor="#03A9F4"
+                        android:textIsSelectable="true"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:visibility="visible"
-                        android:textIsSelectable="true"/>
+                        android:visibility="visible" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -274,9 +274,8 @@
 
                 <TextView
                     android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/data_nascimento"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -285,7 +284,6 @@
                     android:id="@+id/tvDataNascimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="tvDataNascimento"
                     android:textSize="20sp"
                     android:visibility="visible" />
@@ -370,11 +368,11 @@
                     android:id="@+id/tvTipoNome"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="7dp"
                     android:gravity="center"
                     android:text="@string/tipo"
                     android:textSize="20sp"
-                    android:visibility="visible"
-                    android:layout_marginLeft="7dp"/>
+                    android:visibility="visible" />
             </LinearLayout>
 
         </LinearLayout>

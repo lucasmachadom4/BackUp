@@ -54,7 +54,7 @@ public class Valida {
      * @return
      */
     public boolean validaTelefone(String telefone){
-        if(telefone.length() >= 11){
+        if(telefone.length() >= 15){
             return true;
         }else{
             return false;
@@ -68,6 +68,14 @@ public class Valida {
      */
     public boolean validaSpinner(int position){
         if(position !=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean validaSexo(boolean macho, boolean femea){
+        if(macho == true|| femea == true ){
             return true;
         }else{
             return false;
@@ -91,7 +99,7 @@ public class Valida {
             String mes = dataNascimento.substring(3,5);
             String ano = dataNascimento.substring(6);
 
-            if( Integer.parseInt(ano) > Integer.parseInt(formatador.format(dateAtual).substring(6)) || Integer.parseInt(ano) < 1985 ){
+            if( Integer.parseInt(ano) > Integer.parseInt(formatador.format(dateAtual).substring(6)) || Integer.parseInt(ano) < 1980 ){
                 return false;
             }else{
                 if( Integer.parseInt(ano) == Integer.parseInt(formatador.format(dateAtual).substring(6)) &&
@@ -173,19 +181,5 @@ public class Valida {
         }
     }
 
-    public String formataParaMoeda(String valor){
-        try{
-            double moeda = Double.parseDouble(valor);
-            return  String.format("%.2f", moeda).replace(",",".");
-        }catch (Exception e){
-            return null;
-        }
-    }
 
-    public String formataDataBanco(String data) {
-        String dia = data.substring(8);
-        String mes = data.substring(5,7);
-        String ano = data.substring(0,4);
-        return dia + "/" + mes + "/" + ano ;
-    }
 }
