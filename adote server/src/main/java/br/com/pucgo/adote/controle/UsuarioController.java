@@ -23,17 +23,6 @@ public class UsuarioController {
 		return result;
 	}
 
-	@RequestMapping(value = "/testeusuario.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Usuario testeJSON() {
-		usuario.setId(0);
-		usuario.setNome("teste");
-		usuario.setEmail("teste@teste.teste");
-		usuario.setSenha("senhaTeste");
-		usuario.setTelefone1("1");
-		usuario.setTelefone2("2");
-		return usuario;
-	}
-
 	@RequestMapping(value = "/login/{email}/{senha}.json", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody boolean altenticaLogin(@PathVariable String email, @PathVariable String senha) {
 		
@@ -54,14 +43,12 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/consultarinf/{email}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Usuario consultaEmailUsuario(@PathVariable String email) {		
-		
+	public @ResponseBody Usuario consultaEmailUsuario(@PathVariable String email) {				
 		return usuarioService.consultarInfUsuario(email);		
 	}	
 	
 	@RequestMapping(value = "/consultar/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Usuario consultarUsuarioId(@PathVariable int id) {	
-			
+	public @ResponseBody Usuario consultarUsuarioId(@PathVariable int id) {				
 		return usuarioService.consultarUsuarioId(id);		
 	}	
 

@@ -13,14 +13,12 @@ import br.com.pucgo.adote.adapter.AdapterAnimais;
 import br.com.pucgo.adote.conexao.AsyncWS;
 import br.com.pucgo.adote.entidade.Animal;
 import br.com.pucgo.adote.util.Formata;
-import br.com.pucgo.adote.util.Valida;
 
 public class MeusAnimaisActivity extends Activity {
 
     private  static MeusAnimaisActivity meusAnimaisActivity;
 
-    private ImageButton btnVoltar;
-    //private LinearLayout layoutPesquisa;
+    private ImageButton btnVoltar, btnCadastarAnimal;
     private ListView listViewAnimais;
     private AdapterAnimais adapterAnimais;
 
@@ -31,18 +29,14 @@ public class MeusAnimaisActivity extends Activity {
 
         inicializaVariaveis();
         voltarTela();
+        irCadastrarAnimal();
         listarAnimais();
     }
 
     private void inicializaVariaveis(){
-        //btnPesquisar = findViewById(R.id.btnPesquisar);
-        //btnPesquisarIr = findViewById(R.id.btnPesquisarIr);
-        //edtPesquisa = findViewById(R.id.edtPesquisa);
-        //layoutPesquisa = findViewById(R.id.layoutPesquisa);
         btnVoltar = findViewById(R.id.btnVoltar);
+        btnCadastarAnimal = findViewById(R.id.btnCadastrarAnimal);
         listViewAnimais = findViewById(R.id.listViewAnimais);
-
-
     }
 
     private void voltarTela() {
@@ -50,6 +44,16 @@ public class MeusAnimaisActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+    }
+
+    private void irCadastrarAnimal(){
+        btnCadastarAnimal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( MeusAnimaisActivity.this, CadastrarAnimalActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -69,7 +73,6 @@ public class MeusAnimaisActivity extends Activity {
     }
 
     private void layoutAdapterAnimais(Animal[] animais){
-        //adapterAnimais.notifyDataSetChanged();
         adapterAnimais = new AdapterAnimais(MeusAnimaisActivity.this, animais);
         listViewAnimais.setAdapter(adapterAnimais);
         listViewAnimais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,7 +94,6 @@ public class MeusAnimaisActivity extends Activity {
                 animalTela.putExtra("usuarioEmail", animalSelecionado.getUsuario().getEmail() +"");
                 animalTela.putExtra("usuarioTelefone1", animalSelecionado.getUsuario().getTelefone1() +"");
                 animalTela.putExtra("usuarioTelefone2", animalSelecionado.getUsuario().getTelefone2() +"");
-
                 startActivity(animalTela);
             }
         });

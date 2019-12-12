@@ -18,7 +18,6 @@ public class LoginActivity extends Activity {
 
     private Button btnEntrar, btnCriarConta;
     private EditText edtLogin, edtSenha;
-    private UsuarioAppDAOBD bd;
 
 
     @Override
@@ -36,40 +35,36 @@ public class LoginActivity extends Activity {
         btnCriarConta = findViewById(R.id.btnCriarConta);
         edtLogin = findViewById(R.id.edtLogin);
         edtSenha = findViewById(R.id.edtSenha);
-
-
-        bd = new UsuarioAppDAOBD(LoginActivity.this);
-    }
-
-    private void irMenuPrincipal(){
-        Intent intentTelaPrincipal = new Intent(LoginActivity.this, PrincipalActivity.class);
-        startActivity(intentTelaPrincipal);
-        finish();
     }
 
     private void fazerLogin() {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  {
+            public void onClick(View v) {
                 Valida valida = new Valida();
-                if( valida.validaEmail(edtLogin.getText().toString()) ){
+                if (valida.validaEmail(edtLogin.getText().toString())) {
+                    AsyncWS asyncWS = new AsyncWS("usuarioController/login/" +
+                            edtLogin.getText().toString() + "/" + edtSenha.getText().toString());
                     try {
-                        AsyncWS asyncWS = new AsyncWS( "usuarioController/login/" + edtLogin.getText().toString()+ "/" + edtSenha.getText().toString());
-                        if( asyncWS.execute().get().equals("true") ){
+                        if (asyncWS.execute().get().equals("true")) {
                             Usuario usuario = new Usuario();
                             usuario.setEmail(edtLogin.getText().toString());
-                            usuario.setSenha( edtSenha.getText().toString() );
+                            usuario.setSenha(edtSenha.getText().toString());
+                            UsuarioAppDAOBD bd = new UsuarioAppDAOBD(LoginActivity.this);
                             bd.inserir(usuario);
 
-                            irMenuPrincipal();
-                        }else{
+                            Intent intentTelaPrincipal = new Intent(LoginActivity.this, PrincipalActivity.class);
+                            startActivity(intentTelaPrincipal);
+                            finish();
+                        } else {
                             Toast.makeText(LoginActivity.this, "Email ou senha incorreto!", Toast.LENGTH_SHORT).show();
                             asyncWS.cancel(true);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
+                        asyncWS.cancel(true);
                         Log.e("Erro asyncWS", e.getMessage());
                     }
-                }else{
+                } else {
                     Toast.makeText(LoginActivity.this, "Email INVALIDO!", Toast.LENGTH_SHORT).show();
                 }
             }

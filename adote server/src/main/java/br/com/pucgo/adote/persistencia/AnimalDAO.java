@@ -13,31 +13,18 @@ public class AnimalDAO {
 
 	private Conecxao conexaoDB = new Conecxao();
 
-	public ArrayList<Animal> consultarAnimais() {
+	public Animal consultarUltimoAnimalUsuario(int idUsuario) {
 		try {
-			ArrayList<Animal> listaAnimais = new ArrayList<Animal>();
+			Animal animal = new Animal();
 			Connection conn = conexaoDB.abreConexao();
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM animal;");
+			PreparedStatement preparedStatement = conn.prepareStatement("select Max(id) from animal where usuario_id = "+ idUsuario +";");
 			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				Animal animal = new Animal();
-
-				animal.setId(resultSet.getInt("id"));
-				animal.setNome(resultSet.getString("nome"));
-				animal.setDescricao(resultSet.getString("descricao"));
-				animal.setSexo(resultSet.getString("sexo"));
-				animal.setDataNascimento(resultSet.getString("datanascimento"));
-				animal.setCidade(resultSet.getString("cidade"));
-				animal.setValorDoacao(resultSet.getDouble("valordoacao"));
-				animal.setCaminhoFoto(resultSet.getString("imagem"));
-				TipoDAO tipoDAO = new TipoDAO();
-				animal.setTipo(tipoDAO.consultaTipoId(resultSet.getInt("tipo_id")));
-				UsuarioDAO usuarioDAO = new UsuarioDAO();
-				animal.setUsuario(usuarioDAO.consultarUsuarioId(resultSet.getInt("usuario_id")));
-				listaAnimais.add(animal);
+			
+			while (resultSet.next()) {	
+				animal.setId(resultSet.getInt("Max(id)"));	
 			}
 			conn.close();
-			return listaAnimais;
+			return animal;
 		} catch (Exception e) {
 			System.out.println("Erro na consulta: " + e.getMessage());			
 			return null;
@@ -77,7 +64,7 @@ public class AnimalDAO {
 		try {
 			ArrayList<Animal> listaAnimais = new ArrayList<Animal>();
 			Connection conn = conexaoDB.abreConexao();
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM animal where usuario_id =" + id + ";");
+			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM animal where usuario_id =" + id + "  ORDER BY id  desc;");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				Animal animal = new Animal();
@@ -109,10 +96,7 @@ public class AnimalDAO {
 			String query;
 			query = "select ani.*, tip.nome nome from animal ani inner join tipo tip on ani.tipo_id = tip.id where ani.nome like '%"
 					+ pesquisa + "%' or ani.sexo like '%" + pesquisa + "%' or ani.cidade like '%" + pesquisa
-					+ "%' or tip.nome like '" + pesquisa + "%' ORDER BY ani.id  ASC;";
-			// select ani.*, tip.nome nome from animal ani inner join tipo tip on
-			// ani.tipo_id = tip.id where ani.nome like '%cac%' or ani.sexo like '%cac%' or
-			// ani.cidade like '%cac%' or tip.nome like '%cac%';
+					+ "%' or tip.nome like '" + pesquisa + "%' ORDER BY ani.id  desc;";
 
 			ArrayList<Animal> listaAnimais = new ArrayList<Animal>();
 			Connection conn = conexaoDB.abreConexao();

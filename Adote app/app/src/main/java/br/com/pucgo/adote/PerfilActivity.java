@@ -32,7 +32,7 @@ public class PerfilActivity extends Activity {
         voltarTela();
         irMeusAnimais();
         preencheCamposUsuario();
-        editar();
+        editarPerfil();
         desconectarConta();
         apagarConta();
     }
@@ -49,14 +49,11 @@ public class PerfilActivity extends Activity {
         tvEmailExibido = findViewById(R.id.tvEmailExibido);
         tvTelefone1Exibido = findViewById(R.id.tvTelefone1Exibido);
         tvTelefone2Exibido = findViewById(R.id.tvTelefone2Exibido);
-
         imvImagem = findViewById(R.id.imvImagem);
     }
 
     private void preencheCamposUsuario() {
-        // CONECTA NA API e pega dados do usuario
         UsuarioAppDAOBD db = new UsuarioAppDAOBD(PerfilActivity.this);
-        //Log.e(" bd", db.buscar().get(0).getEmail() );
         AsyncWS asyncWS = new AsyncWS("usuarioController/consultarinf/" + db.buscar().get(0).getEmail());
         try {
             Usuario usuario = asyncWS.getTranslation(asyncWS.execute().get(), Usuario.class);
@@ -91,11 +88,10 @@ public class PerfilActivity extends Activity {
         });
     }
 
-    private void editar() {
+    private void editarPerfil() {
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {               //imvImagem get algo
-
+            public void onClick(View v) {
                 Intent editarPerfil = new Intent(PerfilActivity.this, EditarPerfilActivity.class);
                 editarPerfil.putExtra("id", tvIdUsuario.getText().toString());
                 editarPerfil.putExtra("nome", tvNomeExibido.getText().toString());
@@ -123,7 +119,6 @@ public class PerfilActivity extends Activity {
                         Intent sairConta = new Intent(PerfilActivity.this, LoginActivity.class);
                         startActivity(sairConta);
                         finish();
-
                     }
                 }).setNegativeButton("NÂO", new DialogInterface.OnClickListener() {
                     @Override
@@ -144,8 +139,8 @@ public class PerfilActivity extends Activity {
                 builder.setMessage("Deseja apagar a conta? Se fizer isso todos os dados do usuário e dos animais seram perdidos.");
                 builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AsyncWS asyncWS = new AsyncWS("usuarioController/excluir/" + tvIdUsuario.getText().toString() );
 
+                        AsyncWS asyncWS = new AsyncWS("usuarioController/excluir/" + tvIdUsuario.getText().toString() );
                         try {
                             if(asyncWS.execute().get().equals("true")){
                                 UsuarioAppDAOBD db = new UsuarioAppDAOBD(PerfilActivity.this);
@@ -154,6 +149,8 @@ public class PerfilActivity extends Activity {
                                 Intent sairConta = new Intent(PerfilActivity.this, LoginActivity.class);
                                 startActivity(sairConta);
                                 finish();
+                            }else{
+                                asyncWS.cancel(true);
                             }
                         }catch (Exception e){
                             asyncWS.cancel(true);
@@ -174,5 +171,4 @@ public class PerfilActivity extends Activity {
         super.onResume();
         preencheCamposUsuario();
     }
-
 }

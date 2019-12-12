@@ -46,7 +46,7 @@ public class AdapterAnimais extends BaseAdapter {
         ImageView imvImagem = v.findViewById(R.id.imvImagem);
         TextView tvIdAnimal = v.findViewById(R.id.tvIdAnimal);
         TextView tvNomeAnimal = v.findViewById(R.id.tvNomeAnimal);
-        TextView tvSexo = v.findViewById(R.id.tvSexo);
+        //TextView tvSexo = v.findViewById(R.id.tvSexo);
         TextView tvCidade = v.findViewById(R.id.tvCidade);
 
 
@@ -54,7 +54,7 @@ public class AdapterAnimais extends BaseAdapter {
         tvIdAnimal.setText( ""+ this.listaAnimais[position].getId() );
         tvNomeAnimal.setText( ""+this.listaAnimais[position].getNome() );
         //tvDescricao.setText( ""+this.listaAnimais[position].getDescricao() );
-        tvSexo.setText( ""+this.listaAnimais[position].getSexo() );
+        //tvSexo.setText( ""+this.listaAnimais[position].getSexo() );
         tvCidade.setText( ""+this.listaAnimais[position].getCidade() );
 
          return v;

@@ -51,24 +51,21 @@ public class EditarPerfilActivity extends Activity {
         edtSenha = findViewById(R.id.edtSenha);
         edtTelefone1 = findViewById(R.id.edtTelefone1);
         edtTelefone2 = findViewById(R.id.edtTelefone2);
-
         imvImagem = findViewById(R.id.imvImagem);
+
         //mascara de campo telefonico
         edtTelefone1.addTextChangedListener(MaskEditUtil.mask(edtTelefone1, MaskEditUtil.FORMAT_FONE));
         edtTelefone2.addTextChangedListener(MaskEditUtil.mask(edtTelefone2, MaskEditUtil.FORMAT_FONE));
-
     }
 
     private void preencheCampos() {
         Intent i = getIntent();
-        if(i.getStringExtra("id") != null){
+        if (i.getStringExtra("id") != null) {
             tvIdUsuario.setText(i.getStringExtra("id"));
-            if(!tvIdUsuario.getText().equals("0") ){
-                edtNome.setText(i.getStringExtra("nome"));
-                edtEmail.setText(i.getStringExtra("email"));
-                edtTelefone1.setText(i.getStringExtra("telefone1"));
-                edtTelefone2.setText(i.getStringExtra("telefone2"));
-            }
+            edtNome.setText(i.getStringExtra("nome"));
+            edtEmail.setText(i.getStringExtra("email"));
+            edtTelefone1.setText(i.getStringExtra("telefone1"));
+            edtTelefone2.setText(i.getStringExtra("telefone2"));
         }
     }
 
@@ -77,22 +74,21 @@ public class EditarPerfilActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Valida valida = new Valida();
-
-                if (    valida.validaNome(edtNome.getText().toString()) &&
+                if (valida.validaNome(edtNome.getText().toString()) &&
                         valida.validaEmail(edtEmail.getText().toString()) &&
                         valida.validaSenha(edtSenha.getText().toString()) &&
-                        valida.validaTelefone(edtTelefone1.getText().toString()) ) {
+                        valida.validaTelefone(edtTelefone1.getText().toString())) {
 
-                    String comando, msg="";
-                    if ( tvIdUsuario.getText().equals("0") ) {
+                    String comando, msgStatus;
+                    if (tvIdUsuario.getText().equals("0")) {
                         comando = "usuarioController/incluir/" + edtNome.getText().toString() + "/" + edtEmail.getText().toString() +
                                 "/" + edtSenha.getText().toString() + "/" + edtTelefone1.getText().toString() +
-                                "/" + edtTelefone2.getText().toString() ;
-                        msg = "Conta criada com Sucesso!";
-                    }else{
+                                "/" + edtTelefone2.getText().toString();
+                        msgStatus = "Conta criada com Sucesso!";
+                    } else {
                         UsuarioAppDAOBD db = new UsuarioAppDAOBD(EditarPerfilActivity.this);
                         Usuario usuario = new Usuario();
-                        usuario.setId( db.buscar().get(0).getId() );
+                        usuario.setId(db.buscar().get(0).getId());
                         usuario.setEmail(edtEmail.getText().toString());
                         usuario.setSenha(edtSenha.getText().toString());
                         db.atualizar(usuario);
@@ -100,20 +96,14 @@ public class EditarPerfilActivity extends Activity {
                         comando = "usuarioController/alterar/" + tvIdUsuario.getText().toString() + "/" + edtNome.getText().toString() +
                                 "/" + edtEmail.getText().toString() + "/" + edtSenha.getText().toString() +
                                 "/" + edtTelefone1.getText().toString() + "/" + edtTelefone2.getText().toString();
-                        msg = "Conta Atualziada com Sucesso!";
+                        msgStatus = "Conta Atualziada com Sucesso!";
                     }
                     AsyncWS asyncWS = new AsyncWS(comando);
                     try {
-                        if ( asyncWS.execute().get().equals("true") ) {
-                            Toast.makeText(EditarPerfilActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            if( !tvIdUsuario.getText().equals("0") ){
-                                //Intent intentPerfil = new Intent(EditarPerfilActivity.this , PerfilActivity.class);
-                                //startActivity(intentPerfil);
-                                finish();
-                            }else{
-                                finish();
-                            }
-                        }else{
+                        if (asyncWS.execute().get().equals("true")) {
+                            Toast.makeText(EditarPerfilActivity.this, msgStatus, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
                             asyncWS.cancel(true);
                         }
                     } catch (Exception e) {
@@ -122,17 +112,23 @@ public class EditarPerfilActivity extends Activity {
                     }
                 } else {
                     String msgErro = "";
-                    if(!valida.validaNome(edtNome.getText().toString())){ msgErro += "Nome Invalido! Mínimo 3 LETRAS.\n"; }
-                    if(!valida.validaEmail(edtEmail.getText().toString())){ msgErro += "Email Invalido! \n"; }
-                    if(!valida.validaSenha( edtSenha.getText().toString())){ msgErro += "Senha Invalido! Mínimo 4 digitos.\n"; }
-                    if(!valida.validaTelefone(edtTelefone1.getText().toString())){ msgErro += "Telefone1 Invalido!"; }
-
+                    if (!valida.validaNome(edtNome.getText().toString())) {
+                        msgErro += "Nome Invalido! Mínimo 3 LETRAS.\n";
+                    }
+                    if (!valida.validaEmail(edtEmail.getText().toString())) {
+                        msgErro += "Email Invalido! \n";
+                    }
+                    if (!valida.validaSenha(edtSenha.getText().toString())) {
+                        msgErro += "Senha Invalido! Mínimo 4 digitos.\n";
+                    }
+                    if (!valida.validaTelefone(edtTelefone1.getText().toString())) {
+                        msgErro += "Telefone1 Invalido!";
+                    }
                     Toast.makeText(EditarPerfilActivity.this, msgErro, Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-
 
     private void cancelarEdicao() {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +167,6 @@ public class EditarPerfilActivity extends Activity {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 123) {
                 Uri imagemSelecionada = data.getData();
-                //File imgPerfil = new  File("/sdcard/Images/test_image.jpg");
                 imvImagem.setImageURI(imagemSelecionada);
             }
         }

@@ -16,23 +16,12 @@ import br.com.pucgo.adote.negocio.AnimalService;
 @RestController
 @RequestMapping("/animalController")
 public class AnimalController {
+	
+	private AnimalService animalService = new AnimalService();	
 
-	private Animal animal = new Animal();
-	private AnimalService animalService = new AnimalService();
-
-	@RequestMapping(value = "/testeanimal.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Animal testeJSON() {
-		animal.setId(0);
-		animal.setNome("teste");
-		animal.setDescricao("teste");
-
-		return animal;
-	}
-
-	@RequestMapping(value = "/consultar/.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody ArrayList<Animal> consultaEmailUsuario() {
-
-		return animalService.consultarAnimal();
+	@RequestMapping(value = "/consultar/ultimo/{idUsuario}.json", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody Animal consultaEmailUsuario(@PathVariable int idUsuario) {
+		return animalService.consultarUltimoAnimalUsuario(idUsuario);
 	}
 
 	@RequestMapping(value = "/consultar/{id}.json", method = RequestMethod.GET, produces = "application/json")

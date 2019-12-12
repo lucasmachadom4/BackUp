@@ -12,9 +12,9 @@ public class AnimalService {
 
 	private Validar validar = new Validar();	
 
-	public ArrayList<Animal> consultarAnimal() {
+	public Animal consultarUltimoAnimalUsuario(int idUsuario) {
 		AnimalDAO animalDAO = new AnimalDAO();
-		return animalDAO.consultarAnimais();
+		return animalDAO.consultarUltimoAnimalUsuario(idUsuario);
 	}	
 
 	public Animal consultarAnimalId(int id) {
@@ -62,8 +62,6 @@ public class AnimalService {
 			animal.setValorDoacao(valorDoacao);
 			Tipo tipo = new Tipo(idTipo);
 			animal.setTipo(tipo);
-			//Usuario usuario = new Usuario(idUsuario);
-			//animal.setUsuario(usuario);
 			
 			AnimalDAO animalDAO = new AnimalDAO(); //
 			return animalDAO.alterarAnimal(animal);

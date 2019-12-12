@@ -16,7 +16,6 @@ import br.com.pucgo.adote.adapter.AdapterAnimais;
 import br.com.pucgo.adote.conexao.AsyncWS;
 import br.com.pucgo.adote.entidade.Animal;
 import br.com.pucgo.adote.util.Formata;
-import br.com.pucgo.adote.util.Valida;
 
 public class PrincipalActivity extends Activity {
 
@@ -38,7 +37,6 @@ public class PrincipalActivity extends Activity {
         irPerfil();
         irCadastrarAnimal();
         listarAnimais();
-
     }
 
     private void inicializaVariaveis(){
@@ -92,9 +90,8 @@ public class PrincipalActivity extends Activity {
     private void pesquisarAnimalEvento(){
         edtPesquisa.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    pesquisar();
+                    listarAnimais();
                 }
                 return false;
             }
@@ -102,26 +99,13 @@ public class PrincipalActivity extends Activity {
         btnPesquisarIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pesquisar();
+                listarAnimais();
             }
         });
     }
 
-    private void pesquisar() {
+    private void listarAnimais() {
         AsyncWS asyncWS = new AsyncWS("animalController/consultar/pesquisa/"+ edtPesquisa.getText().toString());
-        try{
-            Animal[] animais = asyncWS.getTranslation(asyncWS.execute().get(), Animal[].class);
-            for (int i = 0; i < animais.length; i++) {
-                layoutAdapterAnimais(animais);
-            }
-        }catch (Exception e){
-            Log.e("Erro ao consultar", e.getMessage());
-            asyncWS.cancel(true);
-        }
-    }
-
-    private void listarAnimais(){
-        AsyncWS asyncWS = new AsyncWS("animalController/consultar/");
         try{
             Animal[] animais = asyncWS.getTranslation(asyncWS.execute().get(), Animal[].class);
             for (int i = 0; i < animais.length; i++) {
@@ -169,6 +153,5 @@ public class PrincipalActivity extends Activity {
     public static PrincipalActivity getInstance(){
         return   principalActivity;
     }
-
 
 }

@@ -17,16 +17,8 @@ public class TipoController {
 	private Tipo tipo = new Tipo();
 	private TipoService tipoService = new TipoService();
 	
-	@RequestMapping(value = "/testetipo.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Tipo testeJSON() {		
-		tipo.setId(0);
-		tipo.setNome("teste");		
-		return tipo;
-	}
-	
 	@RequestMapping(value = "/consultar/.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody ArrayList<Tipo> consultarTiposJSON() {		
-		
+	public @ResponseBody ArrayList<Tipo> consultarTiposJSON() {				
 		return tipoService.consultarTipo();
 	}
 	
@@ -36,23 +28,20 @@ public class TipoController {
 	}
 	
 	@RequestMapping(value = "/incluir/{nome}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean incluirTiposJSON(@PathVariable String nome) {			
-		tipo.setNome(nome);	
-		
+	public @ResponseBody boolean incluirTiposJSON(@PathVariable String nome) {		
+		tipo.setNome(nome);			
 		return tipoService.incluirUsuario(tipo);
 	}
 	
 	@RequestMapping(value = "/alterar/{id}/{nome}.json", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody boolean alterarTiposJSON(@PathVariable int id, @PathVariable String nome) {			
 		tipo.setId(id);
-		tipo.setNome(nome);			
-		
+		tipo.setNome(nome);
 		return tipoService.alterarTipo(tipo);
 	}
 	
 	@RequestMapping(value = "/excluir/{id}.json", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody boolean excluirTipoJSON(@PathVariable String id) {	
-		
+	public @ResponseBody boolean excluirTipoJSON(@PathVariable String id) {			
 		return tipoService.excluirTipo(Integer.parseInt(id));
 	}
 
